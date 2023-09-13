@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SalesPredictionWebApplication.Data;
 using SalesPredictionWebApplication.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SalesPredictionWebApplication.Controllers
 {
     public class SalesDataController : Controller
     {
         private readonly ApplicationDbContext _context;
+
+        [BindProperty]
+        public DateTime PredictionDate { get; set; }
 
         public SalesDataController(ApplicationDbContext context)
         {
@@ -49,6 +55,63 @@ namespace SalesPredictionWebApplication.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        // GET: SalesData/Predict
+        // Gets SalesData then predicts future sales data
+        public IActionResult Predict()
+        {
+            return View();
+        }
+
+        // GET: SalesData/Import
+        public IActionResult Import()
+        {
+            return View();
+        }
+
+        // POST: SalesData/Import
+        //Imports a CSV file containing one or more SalesData records
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Import([Bind("Files")] CSVFilesModel csvFiles)
+        {
+            var test = Request.Form.Files;
+
+            if (ModelState.IsValid)
+            {
+                foreach (IFormFile file in csvFiles.Files)
+                {
+                    List<SalesData> allSalesData = GetSalesDataFromCSV(file).ToList();
+
+                    foreach (SalesData salesData in allSalesData)
+                    {
+                        _context.Add(salesData);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+        // GET: SalesData/Predict/5
+        public async Task<IActionResult> Predict(DateTime? predictionDate)
+        {
+            if (predictionDate == null || _context.SalesData == null)
+            {
+                return NotFound();
+            }
+
+            //First get all applicable sales data
+            DateTime dateFrom = DateTime.Now.AddDays(-14);
+            List<SalesData> salesData = await _context.SalesData.Where(data => data.Date > dateFrom).ToListAsync();
+            if (salesData == null || salesData.Count == 0)
+            {
+                return NotFound();
+            }
+            return View(salesData);
         }
 
         // POST: SalesData/Create
@@ -158,6 +221,64 @@ namespace SalesPredictionWebApplication.Controllers
         private bool SalesDataExists(int id)
         {
           return (_context.SalesData?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private IEnumerable<SalesData> GetSalesDataFromCSV(IFormFile csvFile)
+        {
+            var allSalesData = new List<SalesData>();
+            List<string> entries = ConvertCSVFileToText(csvFile).ToList();
+
+            foreach (string entry in entries)
+            {
+                SalesData? salesData = GetSalesDataFromText(entry);
+
+                if (salesData != null)
+                {
+                    allSalesData.Add(salesData);
+                }
+            }
+            return allSalesData;
+        }
+
+        private IEnumerable<string> ConvertCSVFileToText(IFormFile file)
+        {
+            var result = new List<string>();
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                while (reader.Peek() >= 0)
+                {
+                    string? line = reader.ReadLine();
+
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        result.Add(line);
+                    }
+                }
+            }
+            return result;
+        }
+
+        private SalesData? GetSalesDataFromText(string text)
+        {
+            string dateFormat = "yyyy-MM-dd";
+            IFormatProvider provider = CultureInfo.InvariantCulture;
+            DateTimeStyles styles = DateTimeStyles.None;
+
+            string[] textParts = text.Split(',');
+            if (textParts != null && textParts.Length == 2)
+            {
+                if (DateTime.TryParseExact(textParts[0], dateFormat, provider, styles, out DateTime date)
+                    && float.TryParse(textParts[1], out float amount))
+                {
+                    var result = new SalesData()
+                    {
+                        Date = date,
+                        Amount = amount,
+                    };
+                    return result;
+                }
+            }
+            return null;
         }
     }
 }

@@ -1,0 +1,25 @@
+﻿@model SalesPredictionWebApplication.Models.CSVFilesModel
+
+@{
+    ViewData["Title"] = "Import CSV Sales Data";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page for importing sales data </p>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="files-container">
+            <form asp-action="Import" method="post" enctype="multipart/form-data">
+                <div class="upload">
+                    <label asp-for="Files"></label>
+                    <input asp-for="Files"
+                           class="form-control"
+                           onchange="displayNames(this, 'names')" />
+                    <ul id="names" class="d-flex justify-content-start flex-wrap"></ul>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+    </div>
+</div>

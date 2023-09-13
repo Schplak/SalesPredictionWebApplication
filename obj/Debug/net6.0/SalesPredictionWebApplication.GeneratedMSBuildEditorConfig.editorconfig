@@ -24,10 +24,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/VisualStudioProjects/SalesPredictionWebApplication/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [G:/VisualStudioProjects/SalesPredictionWebApplication/Views/SalesData/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsZXNEYXRhXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -44,8 +40,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsZXNEYXRhXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[G:/VisualStudioProjects/SalesPredictionWebApplication/Views/SalesData/Import.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsZXNEYXRhXEltcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [G:/VisualStudioProjects/SalesPredictionWebApplication/Views/SalesData/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsZXNEYXRhXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[G:/VisualStudioProjects/SalesPredictionWebApplication/Views/SalesData/Predict.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsZXNEYXRhXFByZWRpY3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [G:/VisualStudioProjects/SalesPredictionWebApplication/Views/Shared/Error.cshtml]

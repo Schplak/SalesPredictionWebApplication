@@ -16,3 +16,50 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#drop_zone {
+    border: 2px dashed blue;
+    width: 300px;
+    height: 200px;
+}
+
+
+
+
+
+.upload {
+    position: relative;
+    display: block;
+    border: 1px solid black;
+    background-color: #ecedee;
+    padding: 3em;
+    margin: 1em auto;
+    border-radius: 4px;
+}
+
+.upload label {
+    border-bottom: 1px solid #ccc;
+    padding: 1em;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.upload:hover {
+    background-color: #86b7fe;
+}
+
+.upload input {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    padding: 0;
+}
+
+#names li {
+    margin: 1em;
+}
