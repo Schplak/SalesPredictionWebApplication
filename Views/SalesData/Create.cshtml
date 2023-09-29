@@ -1,4 +1,4 @@
-﻿@model SalesPredictionWebApplication.Models.SalesData
+﻿@model SalesPredictionWebApplication.Models.SalesDataModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <input asp-for="Date" type="date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -23,7 +23,7 @@
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input id="form-button" type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -31,6 +31,14 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
+</div>
+
+<div>
+    @if (Model != null && Model.Date.Equals(DateTime.MinValue))
+    {
+        <hr />
+        <p id="import-errors">Error found: The database already contains sales data for the specified date.</p>
+    }
 </div>
 
 @section Scripts {

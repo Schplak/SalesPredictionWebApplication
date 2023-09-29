@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SalesPredictionWebApplication.Models.SalesData>
+﻿@model IEnumerable<SalesPredictionWebApplication.Models.SalesDataModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -25,10 +25,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @item.Date.ToString("dd/MM/yyyy")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+                $@String.Format("{0:0.00}", item.Amount)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

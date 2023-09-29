@@ -10,6 +10,6 @@ namespace SalesPredictionWebApplication.Data
             : base(options)
         {
         }
-        public DbSet<SalesPredictionWebApplication.Models.SalesData>? SalesData { get; set; }
+        public DbSet<SalesPredictionWebApplication.Models.SalesDataModel>? SalesData { get; set; }
     }
 }

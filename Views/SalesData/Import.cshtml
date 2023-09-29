@@ -11,15 +11,34 @@
     <div class="col-md-4">
         <div class="files-container">
             <form asp-action="Import" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="upload">
-                    <label asp-for="Files"></label>
-                    <input asp-for="Files"
-                           class="form-control"
-                           onchange="displayNames(this, 'names')" />
+                    <p id="file-upload-title">Choose or Drag Files Here</p>
+                    <input asp-for="Files" class="form-control" onchange="displayNames(this, 'names')" />
+                    <span asp-validation-for="Files" class="text-danger"></span>
                     <ul id="names" class="d-flex justify-content-start flex-wrap"></ul>
                 </div>
                 <button type="submit" class="btn btn-primary">Upload</button>
             </form>
         </div>
+    </div>
+    <div>
+        @if (!string.IsNullOrEmpty(Model?.CSVFileSuccessMessage))
+        {
+            <hr />
+            <div id="import-success-message">
+                <p>@Model.CSVFileSuccessMessage</p>
+            </div>
+
+            @if (Model?.CSVFileErrors.Count > 0)
+            {
+                <div id="import-errors">
+                    @foreach (var error in Model.CSVFileErrors)
+                    {
+                        <p>@error</p>
+                    }
+                </div>
+            }
+        }
     </div>
 </div>

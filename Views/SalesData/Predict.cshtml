@@ -1,7 +1,43 @@
-﻿@{
-    ViewData["Title"] = "Sales Prediction";
+﻿@model SalesPredictionWebApplication.Models.PredictionModel
+
+@{
+    ViewData["Title"] = "Predict Sales";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page for sales data prediction</p>
 <hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Predict" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date">Select a date to predict sales:</label>
+                <input asp-for="Date" type="date" class="form-control"/>
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <button id="form-button" type="submit" class="btn btn-primary">Predict</button>
+        </form>
+    </div>
+    <hr />
+    <div class="col-md-4">
+        @if (Model != null && Model.Date > DateTime.Now)
+        {
+            if (Model.PredictedSales == 0)
+            {
+                <p>
+                    The sales prediction could not be calculated, as there is insufficient sales data.
+                </p>
+            }
+            else if (Model.Date != null)
+            {
+                <p>
+                    The sales prediction for the date of @Model.Date.Value.ToString("dd/MM/yyyy")
+                    is $@String.Format("{0:0.00}", Model.PredictedSales),
+                    based on @Html.DisplayFor(model => model.NumberOfHistoricalSales) day(s) of sales
+                    in the last @Html.DisplayFor(model => model.DaysOfHistory) days of sales history.
+                </p>
+            }
+        }
+    </div>
+</div>
